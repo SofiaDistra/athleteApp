@@ -1,0 +1,42 @@
+<header>Welcome</header>
+<div class="center">
+  <p>No data was found. Please input initial data:</p>
+
+  <form>
+    <div class="form-group">
+      <label for="name" class="col-form-label">Name:</label>
+      <input required type="text" class="form-control" id="name" name="name" [(ngModel)]="name">
+    </div>
+    <div class="form-group">
+      <label for="birthday" class="col-form-label">Birthday:</label>
+      <input required type="date" class="form-control" id="birthday" name="birthday" [max]="maxDateStr" [(ngModel)]="birthday" >
+    </div>
+    <div class="form-group">
+      <label for="country" class="col-form-label">Country:</label>
+      <select class="form-select" id="country" required name="country" [(ngModel)]="country">
+        <option value="" selected>Select country</option>
+        <option *ngFor="let country of countries" [value]="country.name">{{country.name}}</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label for="height" class="col-form-label">Height:</label>
+      <input required type="text" class="form-control" id="height" name="height" [(ngModel)]="height">
+    </div>
+    <div class="form-group">
+      <label for="picture" class="col-form-label">Picture:</label>
+      <input required type="file" class="form-control" id="picture" name="picture" (change)="onFileChanged($event)" >
+    </div>
+
+    <div class="form-group">
+      <label style="color:red;" *ngIf="!formValid">Complete all fields</label>
+    </div>
+
+    <div class="form-group">
+      <button type="submit" class="btn btn-primary" (click)="submitInitialData()">Submit</button>
+    </div>
+
+  </form>
+</div>
+
+
+

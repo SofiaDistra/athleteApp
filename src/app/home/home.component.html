@@ -1,0 +1,177 @@
+<header>{{name}}
+  <button class="btn btn-sm btn-secondary" (click)="reset()">Reset Data</button>
+</header>
+<main>
+  <div class="row">
+    <div class="col-3">
+      <img [src]="image" class="img-fluid profile">
+    </div>
+    <div class="col-9 bordered">
+      <div>
+        <h2>Country:</h2>
+        <p>{{country}}</p>
+      </div>
+      <div>
+        <h2>Height:</h2>
+        <p>{{height}}</p>
+      </div>
+      <div>
+        <h2>Age:</h2>
+        <p id="age">{{age}}</p>
+      </div>
+    </div>
+  </div>
+</main>
+<section class="flex-container">
+  <div class="box">
+    <h3>Total Wins</h3>
+    <p><span>Wins: </span><span class="win">{{totalWins}}</span></p>
+    <p><span>Losses: </span><span class="loss">{{totalLosses}}</span></p>
+  </div>
+  <div class="box">
+    <h3>Most Grand Slams in a year</h3>
+    <p>Year: {{mostGSYear}}</p>
+    <p>Participations: {{mostGS}}</p>
+  </div>
+</section>
+<section class="table">
+  <h2>Grand Slam Finals</h2>
+  <div id="select_cols">
+    <li><input type="checkbox" [(ngModel)]="this.colsShow[0]" checked="true" value="hide" id="result_col">
+      Result
+    </li>
+    <li><input type="checkbox" [(ngModel)]="this.colsShow[1]" checked="true" value="hide" id="year_col">
+      Year</li>
+    <li><input type="checkbox" [(ngModel)]="this.colsShow[2]" checked="true" value="hide" id="tourn_col">
+      Tournament</li>
+    <li><input type="checkbox" [(ngModel)]="this.colsShow[3]" checked="true" value="hide" id="opon_col">
+      Opponent</li>
+    <li><input type="checkbox" [(ngModel)]="this.colsShow[4]" checked="true" value="hide" id="score_col">
+      Score</li>
+    <li>
+      <button class="btn btn-primary" (click)="openModal('newRowModal')">+ Data</button>
+    </li>
+  </div>
+
+  <table datatable id="stats_table">
+    <thead>
+    <tr>
+      <th id="result_col_head" *ngIf="this.colsShow[0]" (click)="sort('result')">Result</th>
+      <th id="year_col_head" *ngIf="this.colsShow[1]" (click)="sort('year')">Year</th>
+      <th id="tourn_col_head" *ngIf="this.colsShow[2]" (click)="sort('tournament')">Tournament</th>
+      <th id="opon_col_head" *ngIf="this.colsShow[3]" (click)="sort('opponent')">Opponent</th>
+      <th id="score_col_head" *ngIf="this.colsShow[4]" (click)="sort('score')">Score</th>
+    </tr>
+    </thead>
+    <thead>
+      <tr>
+        <th *ngIf="this.colsShow[0]"><input type="text" class="form-control" placeholder="Filter result" [(ngModel)]="resultFilter"
+                   (input)="filterValueChanged()"></th>
+        <th *ngIf="this.colsShow[1]"><input type="text" class="form-control" placeholder="Filter year" [(ngModel)]="yearFilter"
+                   (input)="filterValueChanged()"></th>
+        <th *ngIf="this.colsShow[2]"><input type="text" class="form-control" placeholder="Filter tournament" [(ngModel)]="tournFilter"
+                   (input)="filterValueChanged()"></th>
+        <th *ngIf="this.colsShow[3]"><input type="text" class="form-control" placeholder="Filter opponent" [(ngModel)]="opponFilter"
+                   (input)="filterValueChanged()"></th>
+        <th *ngIf="this.colsShow[4]"><input type="text" class="form-control" placeholder="Filter score" [(ngModel)]="scoreFilter"
+                   (input)="filterValueChanged()"></th>
+      </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let item of this.data">
+      <td *ngIf="this.colsShow[0]" [className]="item.result=='Win' ? 'win' : 'loss'">{{item.result}}</td>
+      <td *ngIf="this.colsShow[1]">{{item.year}}</td>
+      <td *ngIf="this.colsShow[2]">{{item.tournament}}</td>
+      <td *ngIf="this.colsShow[3]">{{item.opponent}}</td>
+      <td *ngIf="this.colsShow[4]">{{item.score}}</td>
+    </tr>
+    </tbody>
+
+  </table>
+</section>
+<section class="bio">
+  <h2>More on {{name}}</h2>
+  <div>
+    <button type="button" class="btn btn-primary btn-sm" (click)="openModal('editBioModal')">
+       Edit
+    </button>
+  </div>
+  <div class="justify">
+    {{bio}}
+  </div>
+</section>
+<footer>
+  <div>Copyright <span style="font-weight:bold"> &#169;</span> <script>document.write(new Date().getFullYear())</script>
+    Designed & Developed by <span style="font-weight:bold">Sofia Ninou</span></div>
+</footer>
+
+<div class="modal fade" id="newRowModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLongTitle">Add data</h5>
+        <button type="button" class="close" (click)="closeModal('newRowModal')" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form>
+          <div class="form-group">
+            <label for="result-input" class="col-form-label">Result:</label>
+            <select name="result" class="form-select" id="result-input" [(ngModel)]="newRow.result">
+              <option selected value="Win" >Win</option>
+              <option value="Loss">Loss</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="year-input" class="col-form-label">Year:</label>
+            <select name="year" class="form-select" id="year-input" [(ngModel)]="newRow.year">
+              <option *ngFor="let year of years" [value]="year">{{year}}</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="tourn-input" class="col-form-label">Tournament:</label>
+            <input name="tournament" type="text" class="form-control" id="tourn-input" [(ngModel)]="newRow.tournament">
+          </div>
+          <div class="form-group">
+            <label for="oppon-input" class="col-form-label">Opponent:</label>
+            <input name="opponent" type="text" class="form-control" id="oppon-input" [(ngModel)]="newRow.opponent">
+          </div>
+          <div class="form-group">
+            <label for="score-input" class="col-form-label">Score:</label>
+            <input name="score" type="text" class="form-control" id="score-input" [(ngModel)]="newRow.score">
+          </div>
+        </form>
+      </div>
+
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" (click)="saveRow()">Save changes</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="editBioModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Edit Bio</h5>
+        <button type="button" class="close" (click)="closeModal('editBioModal')" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form>
+          <div class="form-group">
+            <label for="bio-input" class="col-form-label">Bio:</label>
+            <textarea id="bio-input" class="form-control" name="bio" [(ngModel)]="bio"> </textarea>
+          </div>
+        </form>
+      </div>
+
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" (click)="saveBio()">Save</button>
+      </div>
+    </div>
+  </div>
+</div>
