@@ -56,10 +56,12 @@ footer {
 
 .bordered {
   border: 10px solid #a321ff;
+  margin: 10px;
 }
 
 .bio {
   border: 5px solid #a321ff;
+  margin: 10px;
 }
 
 .bio .justify {
@@ -160,7 +162,7 @@ th {
 
 .center {
   margin: auto;
-  width: 30%;
+  width: 80%;
   padding: 10px;
 }
 
@@ -240,6 +242,12 @@ th {
       border: 1px solid lightgray;
       width: calc(80% - 2rem);
     }
+
+  .center {
+    margin: auto;
+    width: 60%;
+    padding: 10px;
+  }
 }
 
 /* Large screens */
@@ -275,6 +283,12 @@ th {
     border: 1px solid lightgray;
     width: calc(80% - 2rem);
     margin: 1rem;
+  }
+
+  .center {
+    margin: auto;
+    width: 30%;
+    padding: 10px;
   }
 }
 
